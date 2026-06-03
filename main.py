@@ -39,7 +39,7 @@ if __name__ == "__main__":
         feature_template_definitions = get_feature_template_definitions(
             session,
             unique_template_key_pairs,
-            verbose=print_active,
+            verbose=False,
         )
         policy_definitions = get_vedge_policy_definitions(session, verbose=print_active)
         attached_device_values = get_attached_device_values(
