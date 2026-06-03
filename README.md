@@ -84,6 +84,18 @@ The report is saved as **`device_report.xlsx`** in the current directory.
 
 ---
 
+## API endpoints
+
+| Method | Endpoint | Description |
+| --- | --- | --- |
+| GET | `dataservice/system/device/vedges` | Retrieve all edge devices and filter to reachable ones |
+| GET | `dataservice/template/device/object/{templateId}` | Fetch a device template definition by ID |
+| GET | `dataservice/template/feature/object/{templateId}` | Fetch a feature template definition by ID |
+| GET | `dataservice/template/policy/vedge` | Retrieve all vEdge policy definitions |
+| POST | `dataservice/template/device/config/input/` | Get per-device variable values for devices attached to a template |
+
+---
+
 ## Notes
 
 - `credentials.sh` is excluded from version control via `.gitignore`. Never commit credentials.
