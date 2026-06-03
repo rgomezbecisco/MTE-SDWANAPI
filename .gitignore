@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environments
+.venv/
+env/
+venv/
+
+# Credentials — never commit these
+credentials.sh
+.env
+
+# Generated report output
+*.xlsx
+
+# Logs
+*.log
+
+# Editor
+.vscode/
+.idea/
