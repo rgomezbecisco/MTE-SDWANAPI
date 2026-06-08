@@ -13,4 +13,9 @@ def parse_args():
         action="store_true",
         help="Print collected API data during execution.",
     )
+    parser.add_argument(
+        "--find_default_feature_templates",
+        action="store_true",
+        help="Find factory default feature templates.",
+    )
     return parser.parse_args()

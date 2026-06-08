@@ -122,6 +122,20 @@ def get_reachable_devices(session, verbose=False):
 def get_device_template_definitions(session, unique_template_ids, verbose=False):
     """Return full definitions for each unique device template ID."""
 
+    if not unique_template_ids.get("unique_template_ids"):
+        tprint("No unique template IDs found in reachable devices. Fetching all device templates to extract IDs...")
+        all_device_template_endpoint = "dataservice/template/device"
+        all_device_templates = data_from_get_request(session, all_device_template_endpoint)
+        non_default_templates = [template for template in all_device_templates if not template.get("factoryDefault")]
+        tprint(f"Extracted {len(non_default_templates)} non-default device templates to parse for unique IDs.")
+        for template in non_default_templates:
+            template_id = template.get("templateId")
+            if template_id:
+                unique_template_ids.setdefault("unique_template_ids", []).append(template_id)
+
+        if verbose:
+            pretty_print_dict_as_json(unique_template_ids)
+
     device_template_definitions = []
     for template_id in unique_template_ids["unique_template_ids"]:
         template_endpoint = f"dataservice/template/device/object/{template_id}"
@@ -293,3 +307,26 @@ def parse_feature_templates_for_device_template(device_template_definition):
         walk_templates(template)
 
     return sorted(feature_templates.values(), key=lambda item: item["templateId"])
+
+def find_and_print_default_feature_templates(feature_template_definitions, verbose=False):
+
+    default_feature_templates = []
+    for ft in feature_template_definitions:
+        if ft.get("factoryDefault"):
+            name = ft.get("templateName", "Unnamed Template")
+            id = ft.get("templateId", "Unknown ID")
+            description = ft.get("templateDescription", "No description")
+            type = ft.get("templateType", "Unknown type")
+            default_feature_templates.append({
+                "name": name,
+                "id": id,
+                "description": description,
+                "type": type
+            })
+    if default_feature_templates:
+        if verbose:
+            print("\nFactory Default Feature Templates:")
+            pretty_print_dict_as_json(default_feature_templates)
+    else:
+        if verbose:
+            print("\nNo factory default feature templates found.")
