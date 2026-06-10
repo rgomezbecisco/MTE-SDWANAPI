@@ -2,14 +2,6 @@
 
 Connects to a Cisco SD-WAN Manager (vManage), collects device and template data, and generates an Excel report.
 
-Latest update highlights:
-
-- Supports runs where no devices are currently reachable by still generating a report.
-- Adds a `default templates summary` sheet listing factory-default feature templates and where they are used.
-- Highlights factory-default feature templates in each device-template sheet (red text).
-- Handles templates with no attached devices/variables gracefully.
-- Falls back to non-default device template discovery when reachable-device data has no template IDs.
-
 ---
 
 ## Project structure
@@ -76,14 +68,6 @@ Run with verbose output to see all collected API data printed to the terminal:
 python main.py --verbose
 ```
 
-Find factory default feature templates:
-
-```bash
-python main.py --find_default_feature_templates
-```
-
-Note: this flag is currently parsed by the CLI, but default-template analysis is already included in report generation and the flag is not yet used to change execution flow.
-
 Show available options:
 
 ```bash
@@ -98,15 +82,8 @@ The report is saved as **`device_report.xlsx`** in the current directory.
 
 | Sheet | Contents |
 | --- | --- |
-| reachable devices | All reachable edge devices with key attributes. If none are reachable, includes a status row (`NO_REACHABLE_DEVICES`). |
-| default templates summary | Factory-default feature templates, template IDs, and device templates that reference them |
+| reachable devices | All reachable edge devices with key attributes |
 | One sheet per device template | Template summary, attached feature templates, and per-device variable values |
-
-Additional report behavior:
-
-- Feature templates marked as factory default are rendered in red on device-template sheets.
-- If a device template has no attached device variable values, the sheet shows `No attached devices/variables`.
-- Worksheet names are sanitized (for example, `*` is removed) to avoid invalid Excel sheet names.
 
 ---
 
@@ -116,7 +93,6 @@ Additional report behavior:
 | --- | --- | --- |
 | GET | `dataservice/system/device/vedges` | Retrieve all edge devices and filter to reachable ones |
 | GET | `dataservice/template/device/object/{templateId}` | Fetch a device template definition by ID |
-| GET | `dataservice/template/device` | Retrieve all device templates (used as fallback when reachable devices provide no template IDs) |
 | GET | `dataservice/template/feature/object/{templateId}` | Fetch a feature template definition by ID |
 | GET | `dataservice/template/policy/vedge` | Retrieve all vEdge policy definitions |
 | POST | `dataservice/template/device/config/input/` | Get per-device variable values for devices attached to a template |
