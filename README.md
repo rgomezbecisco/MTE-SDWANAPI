@@ -104,3 +104,7 @@ The report is saved as **`device_report.xlsx`** in the current directory.
 - `credentials.sh` is excluded from version control via `.gitignore`. Never commit credentials.
 - The report file `device_report.xlsx` is also excluded — regenerate it by running the script.
 - The `SAMPLES/` directory contains example files: a credentials file template and sample report outputs for reference.
+
+## Test
+
+TEST UPDATE
